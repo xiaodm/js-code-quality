@@ -17,12 +17,6 @@ this is a node code quality test project from upchina-live-node.
 ## report
 the build reports in ./report folder.    
 
-## CI Server  
-* Sonar Server  
-http://172.16.8.197:9000/
-* Jenkins Server  
-http://172.16.8.199:8080/
-
 ## git hooks  
 ### commit-msg     
 please use：  
