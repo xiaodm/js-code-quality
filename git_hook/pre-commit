@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+git stash -q --keep-index
+
+#
+# Run mocha tests
+#
+
+JSH_EXIT_CODE=0
+
+TST_EXIT_CODE=0
+echo 'Running tests...'
+npm run test
+TST_EXIT_CODE=$?
+
+# mocha tests produces exit code of 0 if the code has no errors
+if [[ ${TST_EXIT_CODE} -ne 0 ]]; then
+  echo ""
+  echo "Tests failed. Commit aborted."
+fi
+
+
+# Exit if any error codes
+ERROR=$((${JSH_EXIT_CODE} + ${TST_EXIT_CODE}))
+if [[ ${ERROR} -ne 0 ]]; then
+  git stash pop -q
+  exit ${ERROR}
+fi
+
+
+
+git stash pop -q

@@ -1,0 +1,29 @@
+-----构建触发器：--------------
+Build when a change is pushed to GitLab. GitLab CI Service URL: http://xxxx:8080/project/node-code-quality-build
+
+
+-----excute shell--------------
+rm -rf package-lock.json
+npm install 
+npm run test
+
+-----excute sonarqube scan:-----------
+#required metadata
+#projectKey项目的唯一标识，不能重复
+sonar.projectKey=node-code-quality
+sonar.projectName=node-code-quality
+sonar.projectVersion=1.0 
+sonar.sourceEncoding=UTF-8
+sonar.sources=src
+
+sonar.tests=test
+sonar.language=js
+sonar.dynamicAnalysis=reuseReports
+sonar.coverage.exclusions=src/client/**,src/server/case/**,src/server/config/**,src/server/middleware/**,src/server/model/**,src/server/router/**,src/server/taf/**,src/server/view/**,
+
+sonar.javascript.lcov.reportPath=report/coverage/lcov.info
+sonar.javascript.jstest.reportsPath=report/report.xml
+
+//下面的好像无效：
+//sonar.coverageReportPaths=report/coverage/lcov.info
+//sonar.testExecutionReportPaths=report/report.xml
